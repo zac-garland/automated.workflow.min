@@ -1,0 +1,10 @@
+base
+lubridate
+zoo
+xts
+PerformanceAnalytics
+TTR
+quantmod
+tidyquant
+dplyr
+purrr

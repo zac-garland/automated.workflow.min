@@ -1,0 +1,50 @@
+---
+title: "example automated dashboard"
+date: "Last Updated on: `r Sys.Date()`"
+output:
+  rmdformats::downcute:
+    self_contained: true
+    code_folding: hide
+    default_style: "dark"
+    downcute_theme: "chaos"
+---
+
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(cache = TRUE ,message = FALSE, warning = FALSE)
+```
+
+```{r}
+
+`%>%` <- magrittr::`%>%`
+
+plotly_elegant <- function(plot, ..., margin = 3, background = "rgba(20,20,21,1)", color = "#ffffff",size = 16) {
+  plot %>%
+    plotly::layout(
+      xaxis = list(title = ""),
+      yaxis = list(title = ""),
+      font = list(color = color,family = "sans-serif",size = size),
+      plot_bgcolor = background,
+      paper_bgcolor = background,
+      margin = margin
+    ) %>%
+    plotly::layout(...)
+}
+
+
+
+tidyquant::tq_get("AAPL") %>% 
+  plotly::plot_ly(
+    x = ~date,
+    y = ~adjusted
+  ) %>% 
+  plotly::add_lines() %>% 
+  plotly_elegant(
+    title = ~glue::glue("example automated plot <br> updated last on {Sys.Date()}")
+    
+  )
+
+
+```
+

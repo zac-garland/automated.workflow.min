@@ -3,7 +3,7 @@ title: "example automated dashboard"
 date: "Last Updated on: `r Sys.Date()`"
 output:
   rmdformats::downcute:
-    self_contained: true
+    self_contained: falseK
     code_folding: hide
     default_style: "dark"
     downcute_theme: "chaos"

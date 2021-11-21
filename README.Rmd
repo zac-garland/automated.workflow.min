@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# automated.workflow.min
+# automated.workflow.min 
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -23,3 +23,8 @@ The goal of automated.workflow.min is to provide a minimal reprex for automating
 🏔🏔🏔🏔🏔🏔🏔🏔🏔🏔🏔🏔🏔
 
 [demo](https://zac-garland.github.io/automated.workflow.min/)
+
+
+
+<img src='man/figures/preview.png' width="100%"/>
+

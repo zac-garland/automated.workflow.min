@@ -12,3 +12,5 @@ automating data with github actions, and deploying an updated html file.
 🏔🏔🏔🏔🏔🏔🏔🏔🏔🏔🏔🏔🏔
 
 [demo](https://zac-garland.github.io/automated.workflow.min/)
+
+<img src='man/figures/preview.png' width="100%"/>

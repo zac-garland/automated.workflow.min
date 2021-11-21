@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron:  '0 */3 * * *'
+    - cron:  '0 * * * *'
   push:
     branches: main
 
@@ -33,7 +33,7 @@ jobs:
         run: Rscript -e 'install.packages(c("tidyquant","plotly","rmarkdown","rmdformats","glue","magrittr"))'
 
       - name: Render R Markdown
-        run: Rscript -e 'rmarkdown::render("index.Rmd")'
+        run: Rscript -e 'rmarkdown::render(\"index.Rmd\")'
         shell: Rscript {0}
 
       - name: Commit results

@@ -34,14 +34,18 @@ plotly_elegant <- function(plot, ..., margin = 3, background = "rgba(20,20,21,1)
 
 
 
-tidyquant::tq_get("AAPL") %>% 
+dat_tbl <- tidyquant::tq_get("AAPL") 
+
+write.csv(dat_tbl,"data/dat_tbl.csv")
+
+dat_tbl %>% 
   plotly::plot_ly(
     x = ~date,
     y = ~adjusted
   ) %>% 
   plotly::add_lines() %>% 
   plotly_elegant(
-    title = ~glue::glue("example automated plot <br> updated last on {Sys.Date()}")
+    title = ~glue::glue("example automated plot <br> updated last at {Sys.time()}")
     
   )
 

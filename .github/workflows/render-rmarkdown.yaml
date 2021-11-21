@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: Rscript -e 'install.packages(c("tidyquant","plotly","rmarkdown","rmdformats","glue","magrittr"))'
       - name: Render R Markdown
-        run: rmarkdown::render("docs/automated-report/index.Rmd")
+        run: rmarkdown::render("index.Rmd")
         shell: Rscript {0}
       - name: Commit results
         run: |

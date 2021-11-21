@@ -9,7 +9,7 @@ name: Min Workflow for Automated Data
 jobs:
   render:
     name: Min Workflow for Automated Data
-runs-on: macOS-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:

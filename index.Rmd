@@ -61,7 +61,7 @@ attr(cur_date,"tzone") <- "UTC"
 tags$script(
   shiny::HTML('
  function get_time_diff( datetime ){
-  var datetime = new Date( datetime ).getTime();
+  var datetime = new Date(datetime.replace(" ", "T") + "Z").getTime();;
   var now = new Date().getTime();
   var milisec_diff = now - datetime;
   var msec = milisec_diff;
@@ -79,7 +79,7 @@ tags$script(
 
 tags$script(shiny::HTML(glue::glue('
 $(function(){{
-  $("#date-diff").html("Last Updated " + get_time_diff("{cur_date} UTC") + " ago");    
+  $("#date-diff").html("Last Updated " + get_time_diff("{cur_date}") + " ago");    
 }});
   
 ')))

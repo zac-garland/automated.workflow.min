@@ -9,15 +9,28 @@ name: Min Workflow for Automated Data
 jobs:
   render:
     name: Min Workflow for Automated Data
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
       - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-renv@v1
+
       - name: Install dependencies
         run: Rscript -e 'install.packages(c("tidyquant","plotly","rmarkdown","rmdformats","glue","magrittr"))'
+
       - name: Render R Markdown
         run: rmarkdown::render("index.Rmd")
         shell: Rscript {0}
+
       - name: Commit results
         run: |
           git add -A

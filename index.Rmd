@@ -56,7 +56,7 @@ dat_tbl %>%
 ```{r}
 
 cur_date <- Sys.time()
-# attr(cur_date,"tzone") <- "UTC"
+attr(cur_date,"tzone") <- "UTC"
 
 tags$script(
   shiny::HTML('

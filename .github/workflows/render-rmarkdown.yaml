@@ -1,0 +1,25 @@
+on:
+  schedule:
+    - cron:  '*/20 * * * *'
+  push:
+    branches: main
+
+name: Min Workflow for Automated Data
+
+jobs:
+  render:
+    name: Min Workflow for Automated Data
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install dependencies
+        run: Rscript -e 'install.packages(c("tidyquant","plotly","rmarkdown","rmdformats","glue","magrittr"))'
+      - name: Render R Markdown
+        run: rmarkdown::render("inst/automated-report/automated-report.Rmd")
+        shell: Rscript {0}
+      - name: Commit results
+        run: |
+          git add -A
+          git commit -m 'New Data Detected - data updated!' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"

@@ -1,6 +1,5 @@
 ---
 title: "example automated dashboard"
-date: "Last Updated on: `r Sys.Date()`"
 output:
   rmdformats::downcute:
     self_contained: false
@@ -15,7 +14,11 @@ output:
 knitr::opts_chunk$set(cache = FALSE,message = FALSE, warning = FALSE)
 ```
 
+<h1 id="date-diff"></h1>
+
+
 ```{r}
+library(shiny)
 
 `%>%` <- magrittr::`%>%`
 
@@ -44,10 +47,55 @@ dat_tbl %>%
     y = ~adjusted
   ) %>% 
   plotly::add_lines() %>% 
-  plotly_elegant(
-    title = ~glue::glue("example automated plot <br> updated last at {Sys.time()}")
-    
-  )
+  plotly_elegant()
+
+
+```
+
+```{js}
+
+function get_time_diff( datetime )
+{
+
+    var datetime = new Date( datetime ).getTime();
+    var now = new Date().getTime();
+
+    if( isNaN(datetime) )
+    {
+        return "";
+    }
+
+
+
+
+    var milisec_diff = now - datetime;
+    var msec = milisec_diff;
+    var hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    var mm = Math.floor(msec / 1000 / 60);
+    msec -= mm * 1000 * 60;
+    var ss = Math.floor(msec / 1000);
+    msec -= ss * 1000;
+
+    return hh + " Hours " + mm + " Minutes " + ss + " Seconds";
+}
+
+
+
+```
+
+```{r}
+
+cur_date <- Sys.time()
+# attr(cur_date,"tzone") <- "UTC"
+
+tags$script(shiny::HTML(glue::glue('
+$(function(){{
+  $("#date-diff").html("Last Updated " + get_time_diff("{cur_date}") + " ago");    
+}});
+  
+')))
+
 
 
 ```

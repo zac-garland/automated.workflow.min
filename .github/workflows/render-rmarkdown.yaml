@@ -25,10 +25,15 @@ jobs:
       - uses: r-lib/actions/setup-renv@v1
 
       - name: Install dependencies
+        run: |
+          sudo apt-get install -y libcurl4-openssl-dev
+
+
+      - name: Install dependencies
         run: Rscript -e 'install.packages(c("tidyquant","plotly","rmarkdown","rmdformats","glue","magrittr"))'
 
       - name: Render R Markdown
-        run: rmarkdown::render("index.Rmd")
+        run: Rscript -e 'rmarkdown::render("index.Rmd")'
         shell: Rscript {0}
 
       - name: Commit results

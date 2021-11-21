@@ -79,7 +79,7 @@ tags$script(
 
 tags$script(shiny::HTML(glue::glue('
 $(function(){{
-  $("#date-diff").html("Last Updated " + get_time_diff("{cur_date}") + " ago");    
+  $("#date-diff").html("Last Updated " + get_time_diff("{cur_date} UTC") + " ago");    
 }});
   
 ')))

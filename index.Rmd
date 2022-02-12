@@ -14,7 +14,7 @@ editor_options:
 ## Global options
 knitr::opts_chunk$set(cache = FALSE,message = FALSE, warning = FALSE)
 
-devtools::load_all(".")
+
 ```
 
 <h1 id="date-diff">
@@ -24,7 +24,7 @@ devtools::load_all(".")
 ```{r}
 library(shiny)
 library(tidyverse)
-
+devtools::load_all()
 
 
 ```
@@ -78,7 +78,7 @@ usethis::use_data(macro_data,overwrite = TRUE)
 
 chart_indicators <- function(df,factor_name = NULL){
   df %>%
-    filter(factor == factor_name) %>%
+    dplyr::filter(factor == factor_name) %>%
     split(.$rowid) %>%
     purrr::map(~ {
       .x %>%

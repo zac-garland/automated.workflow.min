@@ -85,6 +85,7 @@ chart_indicators <- function(df,factor_name = NULL){
         tidyr::unnest(data) %>%
         highcharter::hchart("line", highcharter::hcaes(date, price)) %>%
         highcharter::hc_title(text = unique(.x$indicator)) %>%
+        hc_rangeSelector(enabled = TRUE) %>% 
         highcharter::hc_add_theme(highcharter::hc_theme_darkunica())
     }) %>%
     highcharter::hw_grid(ncol = 2)
@@ -101,7 +102,7 @@ chart_indicators <- function(df,factor_name = NULL){
 # Macro Indicators
 
 
-## Interest Rates
+## Rates
 
 ```{r}
 macro_data %>% chart_indicators("Interest Rates")

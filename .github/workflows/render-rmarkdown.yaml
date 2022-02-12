@@ -10,14 +10,28 @@ jobs:
   render:
     name: Min Workflow for Automated Data
     runs-on: macOS-latest
+    - name: Cache R packages
+  if: runner.os != 'Windows'
+  uses: actions/cache@v2
+  with:
+    path: ${{ env.R_LIBS_USER }}
+    key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+    restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
+      - name: Cache R packages
+          if: runner.os != 'Windows'
+          uses: actions/cache@v2
+          with:
+            path: ${{ env.R_LIBS_USER }}
+            key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+            restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
       - name: Install dependencies
-        run: Rscript -e 'install.packages(c("tidyquant","plotly","rmarkdown","rmdformats","glue","magrittr","shiny"))'
+        run: Rscript -e 'install.packages(c("tidyquant","plotly","rmarkdown","rmdformats","glue","magrittr","shiny","tidyverse","highcharter","htmltools","usethis"))'
       - name: Render R Markdown
         run: Rscript -e 'rmarkdown::render(input = "index.Rmd",output_dir="docs")'
       - name: Commit results
@@ -25,3 +39,4 @@ jobs:
           git add -A
           git commit -m 'New Data Detected - data updated!' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
+

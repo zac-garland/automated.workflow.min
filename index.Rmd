@@ -6,52 +6,28 @@ output:
     code_folding: hide
     default_style: "dark"
     downcute_theme: "chaos"
+editor_options: 
+  chunk_output_type: console
 ---
-
 
 ```{r setup, include=FALSE}
 ## Global options
 knitr::opts_chunk$set(cache = FALSE,message = FALSE, warning = FALSE)
+
+devtools::load_all(".")
 ```
 
-<h1 id="date-diff"></h1>
+<h1 id="date-diff">
 
+</h1>
 
 ```{r}
 library(shiny)
+library(tidyverse)
 
-`%>%` <- magrittr::`%>%`
-
-plotly_elegant <- function(plot, ..., margin = 3, background = "rgba(20,20,21,1)", color = "#ffffff",size = 16) {
-  plot %>%
-    plotly::layout(
-      xaxis = list(title = ""),
-      yaxis = list(title = ""),
-      font = list(color = color,family = "sans-serif",size = size),
-      plot_bgcolor = background,
-      paper_bgcolor = background,
-      margin = margin
-    ) %>%
-    plotly::layout(...)
-}
-
-
-
-dat_tbl <- tidyquant::tq_get("AAPL") 
-
-write.csv(dat_tbl,"data/dat_tbl.csv")
-
-dat_tbl %>% 
-  plotly::plot_ly(
-    x = ~date,
-    y = ~adjusted
-  ) %>% 
-  plotly::add_lines() %>% 
-  plotly_elegant()
 
 
 ```
-
 
 ```{r}
 
@@ -88,11 +64,126 @@ $(function(){{
 
 ```
 
-# Latest Data
+
 
 ```{r}
 
-dat_tbl %>% tail(1) %>% knitr::kable()
+
+
+macro_data <- macro_indicators %>%
+  dplyr::mutate(data = purrr::map(id,~tidyquant::tq_get(.,get = "economic.data",from = Sys.Date() - 20*365)))
+
+usethis::use_data(macro_data,overwrite = TRUE)
+
+
+chart_indicators <- function(df,factor_name = NULL){
+  df %>%
+    filter(factor == factor_name) %>%
+    split(.$rowid) %>%
+    purrr::map(~ {
+      .x %>%
+        tidyr::unnest(data) %>%
+        highcharter::hchart("line", highcharter::hcaes(date, price)) %>%
+        highcharter::hc_title(text = unique(.x$indicator)) %>%
+        highcharter::hc_add_theme(highcharter::hc_theme_darkunica())
+    }) %>%
+    highcharter::hw_grid(ncol = 2)
+
+}
+
+
+
+
+
+
+```
+
+# Macro Indicators
+
+
+## Interest Rates
+
+```{r}
+macro_data %>% chart_indicators("Interest Rates")
+
+```
+
+## Inflation
+
+```{r}
+macro_data %>% chart_indicators("Inflation")
+
+```
+
+## Others
+
+```{r}
+macro_data %>% chart_indicators("Others")
+
+```
+
+## Employment
+
+```{r}
+macro_data %>% chart_indicators("Employment")
+
+```
+
+## Housing & construction
+
+```{r}
+macro_data %>% chart_indicators("Housing & construction")
+
+```
+
+## Retail and Consumption
+
+```{r}
+macro_data %>% chart_indicators("Retail and Consumption")
+
+```
+
+## Surveys
+
+```{r}
+macro_data %>% chart_indicators("Surveys")
+
+```
+
+## Manufacturing
+
+```{r}
+macro_data %>% chart_indicators("Manufacturing")
+
+```
+
+## Income
+
+```{r}
+macro_data %>% chart_indicators("Income")
+
+```
+
+
+
+
+```{js}
+
+// resize highcharts to fit in main cotent area
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    $(".highchart, .highcharts-container, .highcharts-root").css("max-width","100%");   
+   
+    var t = setInterval(function(){
+      var resizeEvent = new Event('resize');
+      window.dispatchEvent(resizeEvent);  
+    }, 1000);
+ 
+   
+  });
+
+
 
 ```
 

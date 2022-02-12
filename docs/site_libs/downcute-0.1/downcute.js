@@ -17,7 +17,7 @@ window.addEventListener("load", (event) => {
         theme = "chaos";
     }
 
-    // Dark mode 
+    // Dark mode
     const toggler = document.querySelector(".dark-theme-toggler .toggle");
     toggle_style(toggler, theme);
     toggler.addEventListener("click", (event) => {
@@ -27,6 +27,10 @@ window.addEventListener("load", (event) => {
 
     // Make tables responsive
     $(".page-content table").wrap("<div class='table-wrapper'></div>");
+
+    // fix for highcharts
+    $(".highchart, .highcharts-container").css("width",$(".Main").width());
+    $(".highcharts-root").attr("width",$(".Main").width()-40)
 
     // Fix for dots in level 1 and level 2 titles
     $('body .section.level1').each(function () {

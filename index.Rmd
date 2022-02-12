@@ -76,23 +76,33 @@ macro_data <- macro_indicators %>%
 usethis::use_data(macro_data,overwrite = TRUE)
 
 
-chart_indicators <- function(df,factor_name = NULL){
+chart_indicators <- function(df, factor_name = NULL) {
   df %>%
     dplyr::filter(factor == factor_name) %>%
     split(.$rowid) %>%
     purrr::map(~ {
-      .x %>%
-        tidyr::unnest(data) %>%
+      dat <- .x %>%
+        tidyr::unnest(data)
+      dat %>%
         highcharter::hchart("line", highcharter::hcaes(date, price)) %>%
         highcharter::hc_title(text = unique(.x$indicator)) %>%
-        hc_rangeSelector(enabled = TRUE) %>% 
+        hc_rangeSelector(enabled = TRUE) %>%
+        hc_yAxis(
+          title = list(text = ""),
+          plotLines = list(list(
+            value = tail(dat, 1) %>% pull(price), color = "white",
+            dashStyle = "shortdash",width = 1, label = list(
+              style = list(color = "white"),
+              formatter = JS("function(){
+                   return Highcharts.numberFormat(this.options.value, 2);
+                 }")
+            )
+          ))
+        ) %>%
         highcharter::hc_add_theme(highcharter::hc_theme_darkunica())
     }) %>%
     highcharter::hw_grid(ncol = 2)
-
 }
-
-
 
 
 

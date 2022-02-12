@@ -10,13 +10,6 @@ jobs:
   render:
     name: Min Workflow for Automated Data
     runs-on: macOS-latest
-    - name: Cache R packages
-  if: runner.os != 'Windows'
-  uses: actions/cache@v2
-  with:
-    path: ${{ env.R_LIBS_USER }}
-    key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-    restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:

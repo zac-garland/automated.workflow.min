@@ -7,7 +7,7 @@ chart_indicators <- function(df, factor_name = NULL) {
         tidyr::unnest(data)
       dat %>%
         highcharter::hchart("line", highcharter::hcaes(date, price), name = unique(.x$indicator)) %>%
-        highcharter::hc_title(text = str_wrap(unique(.x$indicator), width = 40) %>% stringr::str_replace_all("\\n", "<br>")) %>%
+        highcharter::hc_title(text = str_wrap(unique(.x$indicator), width = 20) %>% stringr::str_replace_all("\\n", "<br>")) %>%
         highcharter::hc_rangeSelector(
           enabled = TRUE
         ) %>%
@@ -30,6 +30,7 @@ chart_indicators <- function(df, factor_name = NULL) {
           enabled = TRUE, filename = glue::glue("{unique(.x$id)}-fred-zg"),
           sourceWidth = 800, sourceHeight = 500, scale = 10
         ) %>%
+        hc_tooltip(valueDecimals = 2) %>%
         highcharter::hc_credits(enabled = TRUE, text = "Source: <a href='https://fred.stlouisfed.org/' target='_blank'>Federal Reserve Economic Data</a>", useHTML = TRUE)
     }) %>%
     highcharter::hw_grid(ncol = 2)

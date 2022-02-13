@@ -99,7 +99,8 @@ chart_indicators <- function(df, factor_name = NULL) {
             )
           ))
         ) %>%
-        highcharter::hc_add_theme(highcharter::hc_theme_darkunica())
+        highcharter::hc_add_theme(highcharter::hc_theme_darkunica()) %>% 
+        hc_credits(enabled = TRUE, text = "Source: <a href='https://fred.stlouisfed.org/' target='_blank'>Federal Reserve Economic Data</a>",useHTML = TRUE)
     }) %>%
     highcharter::hw_grid(ncol = 2)
 }
@@ -176,6 +177,12 @@ macro_data %>% chart_indicators("Income")
 ```
 
 
+```{css}
+/*fix for 0 padding*/
+.col-1-2, .col-6-12 {
+    padding: 20px;
+}
+```
 
 
 ```{js}

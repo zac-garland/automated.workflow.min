@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: Rscript -e 'remotes::install_deps()'
       - name: Render R Markdown
-        run: Rscript -e 'rmarkdown::render(input = "index.Rmd",output_dir="docs")'
+        run: Rscript -e 'rmarkdown::render(input = "index.Rmd", output_dir="docs")'
       - name: Commit results
         run: |
           git add -A

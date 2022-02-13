@@ -31,6 +31,7 @@ chart_indicators <- function(df, factor_name = NULL) {
           sourceWidth = 800, sourceHeight = 500, scale = 10
         ) %>%
         hc_tooltip(valueDecimals = 2) %>%
+        hc_plotOptions(series = list(connectNulls = TRUE)) %>%
         highcharter::hc_credits(enabled = TRUE, text = "Source: <a href='https://fred.stlouisfed.org/' target='_blank'>Federal Reserve Economic Data</a>", useHTML = TRUE)
     }) %>%
     highcharter::hw_grid(ncol = 2)

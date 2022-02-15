@@ -6,7 +6,17 @@ chart_indicators <- function(df, factor_name = NULL) {
       dat <- .x %>%
         tidyr::unnest(data)
       dat %>%
-        highcharter::hchart("line", highcharter::hcaes(date, price), name = unique(.x$indicator)) %>%
+        highcharter::hchart("line", highcharter::hcaes(date, price), name = unique(.x$indicator),
+                            regression = TRUE,
+                            regressionSettings = list(
+                              type = "linear",
+                              dashStyle = "ShortDash",
+                              color = "skyblue",
+                              lineWidth = 2,
+                              name = "%eq | r2: %r",
+                              hideInLegend = FALSE)
+        ) %>%
+        hc_add_dependency("plugins/highcharts-regression.js") %>%
         highcharter::hc_title(text = str_wrap(unique(.x$indicator), width = 20) %>% stringr::str_replace_all("\\n", "<br>")) %>%
         highcharter::hc_rangeSelector(
           enabled = TRUE
@@ -31,6 +41,7 @@ chart_indicators <- function(df, factor_name = NULL) {
           sourceWidth = 800, sourceHeight = 500, scale = 10
         ) %>%
         hc_tooltip(valueDecimals = 2) %>%
+        hc_plotOptions(series = list(connectNulls = TRUE)) %>%
         highcharter::hc_credits(enabled = TRUE, text = "Source: <a href='https://fred.stlouisfed.org/' target='_blank'>Federal Reserve Economic Data</a>", useHTML = TRUE)
     }) %>%
     highcharter::hw_grid(ncol = 2)

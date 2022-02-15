@@ -3,7 +3,6 @@ title: "example automated dashboard"
 output:
   rmdformats::downcute:
     self_contained: false
-    code_folding: hide
     default_style: "dark"
     downcute_theme: "chaos"
 editor_options: 
@@ -14,44 +13,19 @@ editor_options:
 ## Global options
 knitr::opts_chunk$set(cache = FALSE,message = FALSE, warning = FALSE)
 
-
 ```
 
-<h1 id="date-diff">
-
-</h1>
+<h1 id="date-diff"></h1>
 
 ```{r}
 library(shiny)
 library(tidyverse)
 devtools::load_all()
-
-
 ```
 
 ```{r}
-
-cur_date <- Sys.time()
-attr(cur_date,"tzone") <- "UTC"
-
-tags$script(
-  shiny::HTML('
- function get_time_diff( datetime ){
-  var datetime = new Date(datetime.replace(" ", "T") + "Z").getTime();;
-  var now = new Date().getTime();
-  var milisec_diff = now - datetime;
-  var msec = milisec_diff;
-  var hh = Math.floor(msec / 1000 / 60 / 60);
-  msec -= hh * 1000 * 60 * 60;
-  var mm = Math.floor(msec / 1000 / 60);
-  msec -= mm * 1000 * 60;
-  var ss = Math.floor(msec / 1000);
-  msec -= ss * 1000;
-  return hh + " Hours " + mm + " Minutes " + ss + " Seconds";
-}
-')
-)
-
+# R mixed with JS
+cur_date <- Sys.time();attr(cur_date,"tzone") <- "UTC"
 
 tags$script(shiny::HTML(glue::glue('
 $(function(){{
@@ -67,22 +41,15 @@ $(function(){{
 
 
 ```{r}
-
-
-
 macro_data <- macro_indicators %>%
   dplyr::mutate(data = purrr::map(id,~tidyquant::tq_get(.,get = "economic.data",from = Sys.Date() - 20*365)))
 
 usethis::use_data(macro_data,overwrite = TRUE)
-
-
-
-
-
-
 ```
 
 # Macro Indicators
+
+Regression lines are provided for informational purposes only, fit against their 20 yr trends. 
 
 
 ## Rates
@@ -158,6 +125,22 @@ macro_data %>% chart_indicators("Income")
 
 
 ```{js}
+
+// add in last updated date
+function get_time_diff( datetime ){
+  var datetime = new Date(datetime.replace(" ", "T") + "Z").getTime();;
+  var now = new Date().getTime();
+  var milisec_diff = now - datetime;
+  var msec = milisec_diff;
+  var hh = Math.floor(msec / 1000 / 60 / 60);
+  msec -= hh * 1000 * 60 * 60;
+  var mm = Math.floor(msec / 1000 / 60);
+  msec -= mm * 1000 * 60;
+  var ss = Math.floor(msec / 1000);
+  msec -= ss * 1000;
+  return hh + " Hours " + mm + " Minutes " + ss + " Seconds";
+}
+
 
 // resize highcharts to fit in main cotent area
 

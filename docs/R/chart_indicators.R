@@ -15,7 +15,9 @@ chart_indicators <- function(df, factor_name = NULL) {
                               lineWidth = 2,
                               name = "%eq | r2: %r",
                               hideInLegend = FALSE)
+
         ) %>%
+
         hc_add_dependency("plugins/highcharts-regression.js") %>%
         highcharter::hc_title(text = str_wrap(unique(.x$indicator), width = 20) %>% stringr::str_replace_all("\\n", "<br>")) %>%
         highcharter::hc_rangeSelector(

@@ -49,7 +49,7 @@ usethis::use_data(macro_data,overwrite = TRUE)
 
 # Macro Indicators
 
-# `DISCLAIMER: Regression lines are provided for informational purposes only, fit against their 20 yr trends.`
+## `DISCLAIMER: Regression lines are provided for informational purposes only, fit against their 20 yr trends.`
 
 
 ## Rates

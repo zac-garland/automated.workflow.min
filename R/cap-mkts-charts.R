@@ -31,7 +31,7 @@ plot_index_splines <- function(df){
         sector_index_chart(.x)
 
     }) %>%
-    hw_grid()
+    hw_grid(ncol = 2)
 
 }
 

@@ -115,6 +115,17 @@ macro_data %>% chart_indicators("Income")
 
 ```
 
+### cap mkts
+
+```{r}
+sector_ticks %>%
+  gather(etf_family,ticker,-(1:2)) %>%
+  select(etf_family,sector,ticker,weight) %>%
+  mutate(prices = map(ticker,tidyquant::tq_get)) %>% 
+  plot_index_splines()
+```
+
+
 
 ```{css}
 /*fix for 0 padding*/
